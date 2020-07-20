@@ -125,5 +125,10 @@ torch.save(my_model, ".\\saved_models\\mnist.pth")
 # 如果要加载，用以下代码 (加载可能需要点时间)
 mnist_loaded_model = torch.load(".\\saved_models\\mnist.pth")
 
+
+# 第八部分 - todo 如何用训练完成的模型预测输入的图片
+# https://pytorch.apachecn.org/docs/1.2/intermediate/flask_rest_api_tutorial.html
+
+
 if __name__ == '__main__':
     main()
