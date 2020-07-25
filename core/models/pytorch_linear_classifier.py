@@ -42,6 +42,7 @@ class LinearRegressionModel(torch.nn.Module):
         output = self.linear(x)
         return output
 
+
 # 2.3 如果支持GPU则用GPU，否则用CPU
 if torch.cuda.is_available():
     my_model = LinearRegressionModel().cuda()
@@ -57,10 +58,29 @@ optimizer = torch.optim.SGD(my_model.parameters(), lr=0.003)
 
 # 第三部分 - 训练模型
 # todo 3.1 训练
-
-
 def main():
-    pass
+    epoches = 100
+    for epoch in range(epoches):
+        if torch.cuda.is_available():
+            inputs = torch.autograd.Variable(x_train).cuda()
+            target = torch.autograd.Variable(y_train).cuda()
+        else:
+            inputs = torch.autograd.Variable(x_train)
+            target = torch.autograd.Variable(y_train)
+
+        # forward
+        # todo - 书里这是 my_model(inputs), 但是我觉得应该是 my_model.forward(inputs), 之后再研究谁对谁错.
+        fwd_out = my_model.forward(inputs)
+        loss = criterion(fwd_out, target)
+
+        # backward
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # print some info
+        if (epoch + 1) % 20 == 0:
+            print("Epoch {}/{}, Loss: {}".format(epoch + 1, epoches, loss.data))
 
 
 if __name__ == '__main__':
